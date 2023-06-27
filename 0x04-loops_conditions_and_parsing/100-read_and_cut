@@ -3,7 +3,7 @@
 
 file=/etc/passwd
 
-while IFS= read -r line
+while read -r line
 do
 field1=$(echo "$line" | cut -d ':' -f 1)
 field2=$(echo "$line" | cut -d ':' -f 3)

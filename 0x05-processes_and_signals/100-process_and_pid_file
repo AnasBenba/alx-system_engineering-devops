@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Bash script
+
+pid=$$
+filename="/var/run/myscript.pid"
+echo $pid > $filename
+
+remove()
+{
+	rm -r $filename
+	exit
+}
+
+while 'true'
+do
+	echo "To infinity and beyond"
+	trap 'echo "I hate the kill command" && remove' SIGTERM
+	trap 'echo "Y U no love me?!"' SIGINT
+	trap 'remove' SIGQUIT
+	sleep 2
+done

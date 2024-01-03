@@ -1,17 +1,8 @@
-# Seting up my client config file
-# using puppet to make changes to the default ssh config file
-include stdlib
-
-file_line { 'Turn off passwd auth':
+#!/usr/bin/env bash
+#set up your client SSH configuration 
+#file so that you can connect to a 
+#server without typing a password.
+file { '/etc/ssh/ssh_config':
   ensure  => present,
-  path    => '/etc/ssh/ssh_config',
-  line    => '    PasswordAuthentication no',
-  replace => true,
-}
-
-file_line { 'Delare identity file':
-  ensure  => present,
-  path    => '/etc/ssh/ssh_config',
-  line    => '     IdentityFile ~/.ssh/school',
-  replace => true,
+  content => "PasswordAuthentication no\nIdentityFile ~/.ssh/school\n",
 }

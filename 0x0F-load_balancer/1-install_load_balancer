@@ -1,32 +1,35 @@
 #!/usr/bin/env bash
-#
-sudo apt-get update
-sudo apt-get upgrade -y
-sudo apt-get install -y haproxy
+# Install HAproxy
 
-echo sh -c "
-	global
-    daemon
-    maxconn 256
+apt-get update
+apt-get install -y haproxy
+
+cat <<EOL > /etc/haproxy/haproxy.cfg
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    user haproxy
+    group haproxy
 
 defaults
-    mode http
-    timeout connect 5000ms
-    timeout client 50000ms
-    timeout server 50000ms
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
 
-frontend web
+frontend http-in
     bind *:80
-    mode http
-    default_backend webservers
+    default_backend servers
 
-backend webservers
-    mode http
+backend servers
     balance roundrobin
-    server web-01 [STUDENT_ID]-web-01:80 check
-    server web-02 [STUDENT_ID]-web-02:80 check
-" > /etc/haproxy/haproxy.cfg
+    server 295760-web-01 18.234.193.135:80
+    server 295760-web-02 52.23.245.52:80
+EOL
 
-echo "ENABLED=1" >> /etc/default/haproxy
+update-rc.d haproxy enable
+
 service haproxy restart
-haproxy -f /etc/haproxy/haproxy/cfg

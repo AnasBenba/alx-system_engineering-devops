@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 # Bash script that will display information about subdomains
 my_function() {
-    if [ "$#" -eq 0 ] || [ "$#" -gt 2 ]; then
-        exit 1
-    fi
-    subdomain="lb-01 web-01 web-02 www"
+    subdomain="www lb-01 web-01 web-02"
     if [ "$#" -eq 1 ]; then
         for item in $subdomain; do
             ip=$(dig ${item}.anasbenba.tech | awk '/^;; ANSWER SECTION:$/,/^$/ {if (NF > 1) printf $5}')
@@ -17,6 +14,10 @@ my_function() {
     record=$(dig ${2}.anasbenba.tech | awk '/^;; ANSWER SECTION:$/,/^$/ {if (NF > 1) printf $4}')
     echo "The subdomain $2 is a $record record and points to $ip"
 }
+
+if [ "$#" -eq 0 ] || [ "$#" -gt 2 ]; then
+    exit 1
+fi
 
 
 my_function $1 $2

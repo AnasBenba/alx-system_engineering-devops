@@ -1,0 +1,24 @@
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    user haproxy
+    group haproxy
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
+
+frontend http-in
+    bind *:443 ssl crt /etc/ssl/certs/anasbenba.tech.pem
+    mode http
+    default_backend servers
+
+backend servers
+    balance roundrobin
+    server 295760-web-01 18.234.193.135:80 check
+    server 295760-web-02 52.23.245.52:80 check

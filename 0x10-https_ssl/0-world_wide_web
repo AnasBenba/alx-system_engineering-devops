@@ -4,14 +4,14 @@ my_function() {
     subdomain="www lb-01 web-01 web-02"
     if [ "$#" -eq 1 ]; then
         for item in $subdomain; do
-            ip=$(dig ${item}.anasbenba.tech | awk '/^;; ANSWER SECTION:$/,/^$/ {if (NF > 1) printf $5}')
-            record=$(dig ${item}.anasbenba.tech | awk '/^;; ANSWER SECTION:$/,/^$/ {if (NF > 1) printf $4}')
+            ip=$(dig ${item}.${1} | awk '/^;; ANSWER SECTION:$/,/^$/ {if (NF > 1) printf $5}')
+            record=$(dig ${item}.${1} | awk '/^;; ANSWER SECTION:$/,/^$/ {if (NF > 1) printf $4}')
             echo "The subdomain $item is a $record record and points to $ip"
         done
         exit 0
     fi
-    ip=$(dig ${2}.anasbenba.tech | awk '/^;; ANSWER SECTION:$/,/^$/ {if (NF > 1) printf $5}')
-    record=$(dig ${2}.anasbenba.tech | awk '/^;; ANSWER SECTION:$/,/^$/ {if (NF > 1) printf $4}')
+    ip=$(dig ${2}.${1} | awk '/^;; ANSWER SECTION:$/,/^$/ {if (NF > 1) printf $5}')
+    record=$(dig ${2}.${1} | awk '/^;; ANSWER SECTION:$/,/^$/ {if (NF > 1) printf $4}')
     echo "The subdomain $2 is a $record record and points to $ip"
 }
 

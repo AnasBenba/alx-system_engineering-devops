@@ -12,13 +12,12 @@ if __name__ == "__main__":
     my_user = user.json()
     todo = todos.json()
     done = 0
-    number_of_tasks = 0
+    num_of_t = 0
     for t in todo:
         if t['completed']:
             done += 1
-        number_of_tasks += 1
-    print(
-        f'Employee {my_user["name"]} is done with tasks({done}/{number_of_tasks}):')
+        num_of_t += 1
+    print(f'Employee {my_user["name"]} is done with tasks({done}/{num_of_t}):')
     for t in todo:
         if t['completed']:
             print(f"\t {t['title']}")

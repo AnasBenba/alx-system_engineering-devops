@@ -5,17 +5,18 @@ import requests
 import sys
 
 if __name__ == "__main__":
-    base_url = "https://jsonplaceholder.typicode.com/"
-    user_id = sys.argv[1]
-    user_url = base_url + "users/{}".format(user_id)
-    user = requests.get(user_url).json()
-    todos_url = base_url + "todos"
-    todos_params = {"userId": user_id}
-    todos = requests.get(todos_url, params=todos_params).json()
-    completed_tasks = [task.get("title") for task in todos
-                       if task.get("completed") is True]
-    print("Employee {} is done with tasks({}/{}):".format(
-        user.get("name"), len(completed_tasks), len(todos)
-    ))
-    for task_title in completed_tasks:
-        print("\t {}".format(task_title))
+    id = sys.argv[1]
+    user = pip._vendor.requests.get(f'https://jsonplaceholder.typicode.com/users/{id}')
+    todos = pip._vendor.requests.get(f'https://jsonplaceholder.typicode.com/users/{id}/todos')
+    my_user = user.json()
+    todo = todos.json()
+    done = 0
+    number_of_tasks = 0
+    for t in todo:
+        if t['completed'] == True:
+            done += 1
+        number_of_tasks += 1
+    print(f'Employee {my_user["name"]} is done with tasks({done}/{number_of_tasks}):')
+    for t in todo:
+        if t['completed'] == True:
+            print(f"\t {t['title']}")
